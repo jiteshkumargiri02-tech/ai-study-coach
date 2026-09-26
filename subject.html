@@ -1,0 +1,1229 @@
+```html
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Study Coach</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
+
+header{
+    background:linear-gradient(135deg,#5b4cff,#7b61ff);
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.header-right{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.badge{
+    background:rgba(255,255,255,.18);
+    padding:8px 12px;
+    border-radius:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+}
+
+.hero{
+    background:white;
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 8px 30px rgba(0,0,0,.07);
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#667085;
+    font-size:16px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.stat{
+    background:#f7f8ff;
+    padding:18px;
+    border-radius:16px;
+}
+
+.stat b{
+    display:block;
+    font-size:25px;
+    margin-top:6px;
+}
+
+.section-title{
+    margin:25px 0 15px;
+    font-size:24px;
+}
+
+.classes{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.class-btn{
+    border:none;
+    background:white;
+    padding:12px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    font-weight:bold;
+}
+
+.class-btn.active{
+    background:#5b4cff;
+    color:white;
+}
+
+.subjects{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.subject{
+    background:white;
+    border-radius:20px;
+    padding:22px;
+    cursor:pointer;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    transition:.2s;
+}
+
+.subject:hover{
+    transform:translateY(-4px);
+}
+
+.subject-icon{
+    font-size:42px;
+}
+
+.subject h3{
+    margin:10px 0 5px;
+}
+
+.subject p{
+    color:#667085;
+    font-size:14px;
+}
+
+.coach{
+    display:none;
+    margin-top:25px;
+    background:white;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+.coach-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.coach-name{
+    font-size:27px;
+    font-weight:bold;
+}
+
+.ai-face{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#5b4cff;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+}
+
+.chat{
+    background:#f5f7fb;
+    border-radius:18px;
+    padding:20px;
+    margin-top:20px;
+    min-height:150px;
+}
+
+.ai-message{
+    background:white;
+    padding:16px;
+    border-radius:15px;
+    margin-bottom:12px;
+    line-height:1.6;
+}
+
+.user-message{
+    background:#e9e5ff;
+    padding:16px;
+    border-radius:15px;
+    line-height:1.6;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+input{
+    flex:1;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:16px;
+}
+
+button{
+    border:none;
+    border-radius:12px;
+    padding:12px 18px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.primary{
+    background:#5b4cff;
+    color:white;
+}
+
+.green{
+    background:#16a34a;
+    color:white;
+}
+
+.orange{
+    background:#f59e0b;
+    color:white;
+}
+
+.red{
+    background:#ef4444;
+    color:white;
+}
+
+.action-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+
+.lesson-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.lesson{
+    border:1px solid #e5e7eb;
+    border-radius:15px;
+    padding:18px;
+    background:#fff;
+}
+
+.lesson h4{
+    margin-bottom:8px;
+}
+
+.progress{
+    height:9px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-bar{
+    height:100%;
+    background:#5b4cff;
+    width:0%;
+}
+
+.quiz{
+    display:none;
+    margin-top:25px;
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    border:2px solid #eee;
+}
+
+.options{
+    display:grid;
+    gap:10px;
+    margin-top:15px;
+}
+
+.option{
+    text-align:left;
+    background:#f5f7fb;
+    padding:15px;
+    border-radius:12px;
+}
+
+.option:hover{
+    background:#e9e5ff;
+}
+
+.footer{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+@media(max-width:800px){
+    .subjects,.lesson-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:550px){
+    .subjects,.lesson-grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .hero h1{
+        font-size:25px;
+    }
+
+    .input-area{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🧠 AI Study Coach</div>
+
+    <div class="header-right">
+        <div class="badge">⭐ XP: <span id="xp">0</span></div>
+        <div class="badge">🪙 <span id="coins">0</span></div>
+        <div class="badge">🔥 <span id="streak">1</span></div>
+    </div>
+</header>
+
+<div class="container">
+
+    <section class="hero">
+        <h1>Namaste Student! 👋</h1>
+        <p>
+            Aapka personal AI Study Coach — English, Hindi, Maths,
+            Science, SST aur Computer ek hi jagah.
+        </p>
+
+        <div class="stats">
+            <div class="stat">
+                📚 Class
+                <b id="currentClass">5</b>
+            </div>
+
+            <div class="stat">
+                🏆 Level
+                <b id="level">1</b>
+            </div>
+
+            <div class="stat">
+                🎯 Accuracy
+                <b id="accuracy">0%</b>
+            </div>
+
+            <div class="stat">
+                🥇 Badges
+                <b id="badges">0</b>
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title">🎓 Apni Class Select Karein</h2>
+
+    <div class="classes" id="classes"></div>
+
+    <h2 class="section-title">📚 Subjects</h2>
+
+    <div class="subjects">
+
+        <div class="subject" onclick="openSubject('English')">
+            <div class="subject-icon">🇬🇧</div>
+            <h3>English AI Coach</h3>
+            <p>Grammar, vocabulary, speaking, reading & writing</p>
+        </div>
+
+        <div class="subject" onclick="openSubject('Hindi')">
+            <div class="subject-icon">🇮🇳</div>
+            <h3>Hindi AI Coach</h3>
+            <p>व्याकरण, पाठ, लेखन और शब्द ज्ञान</p>
+        </div>
+
+        <div class="subject" onclick="openSubject('Maths')">
+            <div class="subject-icon">➗</div>
+            <h3>Maths AI Coach</h3>
+            <p>Addition se Algebra aur Geometry tak</p>
+        </div>
+
+        <div class="subject" onclick="openSubject('Science')">
+            <div class="subject-icon">🔬</div>
+            <h3>Science AI Coach</h3>
+            <p>Physics, Chemistry, Biology aur experiments</p>
+        </div>
+
+        <div class="subject" onclick="openSubject('SST')">
+            <div class="subject-icon">🌍</div>
+            <h3>SST AI Coach</h3>
+            <p>History, Geography, Civics aur Economics</p>
+        </div>
+
+        <div class="subject" onclick="openSubject('Computer')">
+            <div class="subject-icon">💻</div>
+            <h3>Computer AI Coach</h3>
+            <p>Computer basics, coding, internet aur AI</p>
+        </div>
+
+    </div>
+
+    <section class="coach" id="coach">
+
+        <div class="coach-top">
+
+            <div>
+                <div class="coach-name" id="coachName">
+                    🤖 English AI Teacher
+                </div>
+
+                <p id="coachSubtitle">
+                    Main aapko step-by-step sikhaunga.
+                </p>
+            </div>
+
+            <div class="ai-face">🤖</div>
+
+        </div>
+
+        <div class="chat" id="chat">
+
+            <div class="ai-message" id="welcomeMessage">
+                Namaste! 👋 Main aapka AI Teacher hoon.
+                Mujhse koi bhi question poochhiye.
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <input
+                id="question"
+                type="text"
+                placeholder="Apna doubt yahan likhiye..."
+                onkeydown="if(event.key==='Enter') askCoach()"
+            >
+
+            <button class="primary" onclick="askCoach()">
+                Ask AI 🤖
+            </button>
+
+        </div>
+
+        <div class="action-buttons">
+
+            <button class="green" onclick="speakLast()">
+                🔊 Teacher Bole
+            </button>
+
+            <button class="orange" onclick="giveHint()">
+                💡 Hint
+            </button>
+
+            <button class="primary" onclick="startQuiz()">
+                📝 Practice
+            </button>
+
+        </div>
+
+        <div class="lesson-grid" id="lessons"></div>
+
+        <div class="quiz" id="quiz">
+
+            <h2>🧠 Challenge Question</h2>
+
+            <p id="quizQuestion" style="margin-top:12px;font-size:18px;"></p>
+
+            <div class="options" id="options"></div>
+
+            <div id="quizResult" style="margin-top:15px;font-weight:bold;"></div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<div class="footer">
+    © 2026 AI Study Coach • Learn • Practice • Grow 🚀
+</div>
+
+
+<script>
+
+let selectedClass = 5;
+let selectedSubject = "English";
+
+let xp = Number(localStorage.getItem("studyXP")) || 0;
+let coins = Number(localStorage.getItem("studyCoins")) || 0;
+let streak = Number(localStorage.getItem("studyStreak")) || 1;
+let correctAnswers = Number(localStorage.getItem("correctAnswers")) || 0;
+let totalQuestions = Number(localStorage.getItem("totalQuestions")) || 0;
+let badgeCount = Number(localStorage.getItem("badgeCount")) || 0;
+
+let lastAIMessage = "";
+
+const subjectData = {
+
+English:{
+    emoji:"🇬🇧",
+    teacher:"English AI Teacher",
+    subtitle:"Grammar, vocabulary aur speaking ko easy banayenge.",
+    lessons:[
+        ["Grammar","Noun, Pronoun, Verb, Tense"],
+        ["Vocabulary","New English words"],
+        ["Speaking","Daily conversation"],
+        ["Reading","Reading comprehension"],
+        ["Writing","Paragraph & essay"],
+        ["Grammar Challenge","Advanced grammar"]
+    ]
+},
+
+Hindi:{
+    emoji:"🇮🇳",
+    teacher:"Hindi AI Coach",
+    subtitle:"Hindi ko interesting aur easy banayenge.",
+    lessons:[
+        ["व्याकरण","संज्ञा, सर्वनाम, क्रिया"],
+        ["शब्द ज्ञान","पर्यायवाची और विलोम"],
+        ["पाठ","पाठ का अर्थ और प्रश्न"],
+        ["लेखन","निबंध और अनुच्छेद"],
+        ["मुहावरे","मुहावरे और लोकोक्तियाँ"],
+        ["Challenge","व्याकरण अभ्यास"]
+    ]
+},
+
+Maths:{
+    emoji:"➗",
+    teacher:"Maths AI Coach",
+    subtitle:"Maths ke questions ko step-by-step solve karenge.",
+    lessons:[
+        ["Numbers","Numbers & place value"],
+        ["Addition","Addition & subtraction"],
+        ["Fractions","Fractions & decimals"],
+        ["Percentage","Percentage & profit"],
+        ["Algebra","Variables & equations"],
+        ["Geometry","Shapes, angles & area"]
+    ]
+},
+
+Science:{
+    emoji:"🔬",
+    teacher:"Science AI Coach",
+    subtitle:"Science ko examples aur experiments se samjhenge.",
+    lessons:[
+        ["Physics","Force, motion & energy"],
+        ["Chemistry","Matter & reactions"],
+        ["Biology","Plants & animals"],
+        ["Human Body","Body systems"],
+        ["Environment","Earth & environment"],
+        ["Experiments","Simple science experiments"]
+    ]
+},
+
+SST:{
+    emoji:"🌍",
+    teacher:"SST AI Coach",
+    subtitle:"History, Geography aur Civics ko easy banayenge.",
+    lessons:[
+        ["History","Important historical events"],
+        ["Geography","Earth, maps & climate"],
+        ["Civics","Government & democracy"],
+        ["Economics","Money & economy"],
+        ["India","Indian history & geography"],
+        ["World","World geography"]
+    ]
+},
+
+Computer:{
+    emoji:"💻",
+    teacher:"Computer AI Coach",
+    subtitle:"Computer aur coding ko practical tarike se seekhen.",
+    lessons:[
+        ["Computer Basics","Hardware & software"],
+        ["Internet","Internet & browser"],
+        ["Coding","HTML, CSS & JavaScript"],
+        ["AI","Artificial Intelligence"],
+        ["Cyber Safety","Online safety"],
+        ["Programming","Programming basics"]
+    ]
+}
+
+};
+
+
+const quizData = {
+
+English:[
+    {
+        q:"Choose the correct sentence:",
+        options:["He go to school.","He goes to school.","He going school.","He gone school."],
+        answer:1
+    },
+    {
+        q:"What is the plural of 'child'?",
+        options:["Childs","Childes","Children","Childrens"],
+        answer:2
+    }
+],
+
+Hindi:[
+    {
+        q:"'राम स्कूल जाता है' में 'राम' क्या है?",
+        options:["क्रिया","संज्ञा","विशेषण","सर्वनाम"],
+        answer:1
+    }
+],
+
+Maths:[
+    {
+        q:"What is 25 × 4?",
+        options:["50","75","100","125"],
+        answer:2
+    },
+    {
+        q:"What is 50% of 200?",
+        options:["50","75","100","150"],
+        answer:2
+    }
+],
+
+Science:[
+    {
+        q:"Which planet is known as the Red Planet?",
+        options:["Earth","Mars","Venus","Jupiter"],
+        answer:1
+    }
+],
+
+SST:[
+    {
+        q:"Which is the largest continent?",
+        options:["Africa","Europe","Asia","Australia"],
+        answer:2
+    }
+],
+
+Computer:[
+    {
+        q:"What does CPU stand for?",
+        options:[
+            "Central Processing Unit",
+            "Computer Personal Unit",
+            "Central Program Utility",
+            "Computer Processing User"
+        ],
+        answer:0
+    }
+]
+
+};
+
+
+let currentQuiz = null;
+
+
+function createClasses(){
+
+    const box = document.getElementById("classes");
+
+    for(let i=1;i<=10;i++){
+
+        const button = document.createElement("button");
+
+        button.className = "class-btn";
+
+        if(i === selectedClass){
+            button.classList.add("active");
+        }
+
+        button.innerText = "Class " + i;
+
+        button.onclick = function(){
+
+            selectedClass = i;
+
+            document
+                .querySelectorAll(".class-btn")
+                .forEach(b=>b.classList.remove("active"));
+
+            button.classList.add("active");
+
+            document.getElementById("currentClass").innerText = i;
+
+            updateWelcome();
+
+        };
+
+        box.appendChild(button);
+    }
+}
+
+
+function openSubject(subject){
+
+    selectedSubject = subject;
+
+    const data = subjectData[subject];
+
+    document.getElementById("coach").style.display = "block";
+
+    document.getElementById("coachName").innerText =
+        data.emoji + " " + data.teacher;
+
+    document.getElementById("coachSubtitle").innerText =
+        data.subtitle + " Class " + selectedClass + " ke level par.";
+
+    const lessons = document.getElementById("lessons");
+
+    lessons.innerHTML = "";
+
+    data.lessons.forEach((lesson,index)=>{
+
+        const div = document.createElement("div");
+
+        div.className = "lesson";
+
+        div.innerHTML = `
+            <h4>${index+1}. ${lesson[0]}</h4>
+            <p>${lesson[1]}</p>
+
+            <div class="progress">
+                <div class="progress-bar"
+                     style="width:${Math.min((index+1)*12,100)}%">
+                </div>
+            </div>
+        `;
+
+        div.onclick = function(){
+
+            addXP(5);
+
+            const message =
+                `Chaliye Class ${selectedClass} ke liye ${lesson[0]} start karte hain. 
+                Main pehle concept samjhaunga, phir example dunga aur uske baad practice question dunga.`;
+
+            addAIMessage(message);
+
+            speak(message);
+        };
+
+        lessons.appendChild(div);
+
+    });
+
+    updateWelcome();
+
+    document
+        .getElementById("coach")
+        .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+function updateWelcome(){
+
+    const data = subjectData[selectedSubject];
+
+    const message =
+        `Namaste! 👋 Main ${data.teacher} hoon.
+        Aap Class ${selectedClass} mein hain.
+        Aap mujhse ${selectedSubject} ka koi bhi question poochh sakte hain.
+        Agar samajh na aaye to main aur simple example se samjhaunga.`;
+
+    document.getElementById("welcomeMessage").innerText = message;
+
+    lastAIMessage = message;
+
+}
+
+
+function askCoach(){
+
+    const input = document.getElementById("question");
+
+    const question = input.value.trim();
+
+    if(!question){
+
+        alert("Pehle apna question likhiye.");
+
+        return;
+    }
+
+    addUserMessage(question);
+
+    input.value = "";
+
+    setTimeout(()=>{
+
+        const answer = generateAnswer(question);
+
+        addAIMessage(answer);
+
+        speak(answer);
+
+        addXP(10);
+
+    },400);
+
+}
+
+
+function generateAnswer(question){
+
+    const q = question.toLowerCase();
+
+    let answer = "";
+
+    if(selectedSubject === "English"){
+
+        if(q.includes("noun")){
+
+            answer =
+            "Noun kisi person, place, animal ya thing ke naam ko kehte hain. " +
+            "Example: Rahul, India, dog, book. " +
+            "Sentence: Rahul has a book. Yahan Rahul aur book nouns hain.";
+
+        }else if(q.includes("verb")){
+
+            answer =
+            "Verb kisi action ya state ko batata hai. " +
+            "Examples: run, eat, play, write. " +
+            "Sentence: Ram plays cricket. Yahan 'plays' verb hai.";
+
+        }else if(q.includes("tense")){
+
+            answer =
+            "Tense batata hai ki action kab hua. " +
+            "Teen basic tenses hain: Present, Past aur Future. " +
+            "Example: I play. I played. I will play.";
+
+        }else{
+
+            answer =
+            "English Coach: Main aapke question ko step-by-step samjhaunga. " +
+            "Aap Grammar, Tense, Vocabulary, Speaking ya Reading ke baare mein poochh sakte hain.";
+
+        }
+
+    }
+
+    else if(selectedSubject === "Hindi"){
+
+        if(q.includes("संज्ञा") || q.includes("sangya")){
+
+            answer =
+            "संज्ञा किसी व्यक्ति, स्थान, वस्तु या भाव के नाम को कहते हैं। " +
+            "जैसे: राम, पटना, किताब और खुशी।";
+
+        }else{
+
+            answer =
+            "Hindi Coach: Main concept ko आसान भाषा में समझाऊंगा. " +
+            "आप संज्ञा, सर्वनाम, क्रिया, विशेषण, मुहावरे या पाठ के बारे में पूछ सकते हैं।";
+
+        }
+
+    }
+
+    else if(selectedSubject === "Maths"){
+
+        const numberMatch = q.match(/(\d+)\s*[\+\-\*x×]\s*(\d+)/);
+
+        if(numberMatch){
+
+            const a = Number(numberMatch[1]);
+
+            const b = Number(numberMatch[2]);
+
+            let result;
+
+            if(q.includes("+")){
+                result = a+b;
+            }
+            else if(q.includes("-")){
+                result = a-b;
+            }
+            else{
+                result = a*b;
+            }
+
+            answer =
+            `Chaliye step-by-step solve karte hain. 
+            Pehla number = ${a}. 
+            Doosra number = ${b}. 
+            Calculation karne par answer = ${result}. 
+            Isi tarah hum bade questions bhi steps mein solve kar sakte hain.`;
+
+        }else if(q.includes("percentage")){
+
+            answer =
+            "Percentage ka matlab hota hai per hundred. " +
+            "Example: 50% = 50/100 = 1/2. " +
+            "Agar 200 ka 50% nikalna ho, to 200 × 50 ÷ 100 = 100.";
+
+        }else{
+
+            answer =
+            "Maths Coach: Question bhejiye. Main solution ko step 1, step 2, step 3 mein explain karunga.";
+
+        }
+
+    }
+
+    else if(selectedSubject === "Science"){
+
+        answer =
+        "Science Coach: Main Science ko real-life examples ke saath samjhaunga. " +
+        "Aap Physics, Chemistry, Biology, Human Body ya Environment ka question poochh sakte hain.";
+
+    }
+
+    else if(selectedSubject === "SST"){
+
+        answer =
+        "SST Coach: Main History, Geography, Civics aur Economics ko simple language mein explain karunga. " +
+        "Aap apna chapter ya question bhejiye.";
+
+    }
+
+    else if(selectedSubject === "Computer"){
+
+        answer =
+        "Computer Coach: Main computer basics se coding aur AI tak step-by-step sikha sakta hoon. " +
+        "Aap HTML, CSS, JavaScript, Internet, AI ya Cyber Safety ka question poochhiye.";
+
+    }
+
+    return answer;
+
+}
+
+
+function addUserMessage(text){
+
+    const chat = document.getElementById("chat");
+
+    const div = document.createElement("div");
+
+    div.className = "user-message";
+
+    div.innerText = "👤 " + text;
+
+    chat.appendChild(div);
+
+}
+
+
+function addAIMessage(text){
+
+    const chat = document.getElementById("chat");
+
+    const div = document.createElement("div");
+
+    div.className = "ai-message";
+
+    div.innerText = "🤖 " + text;
+
+    chat.appendChild(div);
+
+    lastAIMessage = text;
+
+    chat.scrollTop = chat.scrollHeight;
+
+}
+
+
+function speak(text){
+
+    if(!("speechSynthesis" in window)){
+
+        alert("Aapke browser mein voice support available nahi hai.");
+
+        return;
+
+    }
+
+    speechSynthesis.cancel();
+
+    const voice = new SpeechSynthesisUtterance(text);
+
+    voice.lang = "en-IN";
+
+    voice.rate = 0.9;
+
+    speechSynthesis.speak(voice);
+
+}
+
+
+function speakLast(){
+
+    if(lastAIMessage){
+
+        speak(lastAIMessage);
+
+    }
+
+}
+
+
+function giveHint(){
+
+    const hints = {
+
+        English:
+        "💡 Hint: Sentence ke subject aur verb ko identify kijiye.",
+
+        Hindi:
+        "💡 Hint: Pehle dekhiye sentence mein kis person, object ya action ki baat ho rahi hai.",
+
+        Maths:
+        "💡 Hint: Question ko chhote steps mein tod dijiye. Pehle given values identify karein.",
+
+        Science:
+        "💡 Hint: Concept ko real-life example se connect karke dekhiye.",
+
+        SST:
+        "💡 Hint: Question mein place, time, person ya event identify kijiye.",
+
+        Computer:
+        "💡 Hint: Pehle problem ko samjhiye, phir input → process → output sochiye."
+
+    };
+
+    addAIMessage(hints[selectedSubject]);
+
+    speak(hints[selectedSubject]);
+
+}
+
+
+function startQuiz(){
+
+    const list = quizData[selectedSubject];
+
+    if(!list){
+
+        alert("Is subject ka quiz abhi available nahi hai.");
+
+        return;
+    }
+
+    currentQuiz =
+        list[Math.floor(Math.random()*list.length)];
+
+    document.getElementById("quiz").style.display = "block";
+
+    document.getElementById("quizQuestion").innerText =
+        currentQuiz.q;
+
+    const options =
+        document.getElementById("options");
+
+    options.innerHTML = "";
+
+    currentQuiz.options.forEach((option,index)=>{
+
+        const button = document.createElement("button");
+
+        button.className = "option";
+
+        button.innerText =
+            String.fromCharCode(65+index) + ". " + option;
+
+        button.onclick = function(){
+
+            checkAnswer(index);
+
+        };
+
+        options.appendChild(button);
+
+    });
+
+    document.getElementById("quizResult").innerText = "";
+
+    document
+        .getElementById("quiz")
+        .scrollIntoView({behavior:"smooth"});
+
+}
+
+
+function checkAnswer(index){
+
+    totalQuestions++;
+
+    if(index === currentQuiz.answer){
+
+        correctAnswers++;
+
+        addXP(25);
+
+        coins += 10;
+
+        document.getElementById("quizResult").innerText =
+            "🎉 Correct! Bahut badhiya! +25 XP +10 Coins";
+
+    }else{
+
+        document.getElementById("quizResult").innerText =
+            "❌ Not quite. Sahi answer: " +
+            currentQuiz.options[currentQuiz.answer];
+
+    }
+
+    saveData();
+
+    updateStats();
+
+}
+
+
+function addXP(amount){
+
+    xp += amount;
+
+    coins += Math.floor(amount/5);
+
+    const newLevel =
+        Math.floor(xp/100)+1;
+
+    if(newLevel > 1 && newLevel % 2 === 0){
+
+        badgeCount++;
+
+    }
+
+    saveData();
+
+    updateStats();
+
+}
+
+
+function updateStats(){
+
+    document.getElementById("xp").innerText = xp;
+
+    document.getElementById("coins").innerText = coins;
+
+    document.getElementById("streak").innerText = streak;
+
+    document.getElementById("level").innerText =
+        Math.floor(xp/100)+1;
+
+    document.getElementById("badges").innerText =
+        badgeCount;
+
+    const accuracy =
+        totalQuestions === 0
+        ? 0
+        : Math.round((correctAnswers/totalQuestions)*100);
+
+    document.getElementById("accuracy").innerText =
+        accuracy + "%";
+
+}
+
+
+function saveData(){
+
+    localStorage.setItem("studyXP",xp);
+
+    localStorage.setItem("studyCoins",coins);
+
+    localStorage.setItem("studyStreak",streak);
+
+    localStorage.setItem("correctAnswers",correctAnswers);
+
+    localStorage.setItem("totalQuestions",totalQuestions);
+
+    localStorage.setItem("badgeCount",badgeCount);
+
+}
+
+
+createClasses();
+
+updateStats();
+
+openSubject("English");
+
+</script>
+
+</body>
+</html>
+```
